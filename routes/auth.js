@@ -8,7 +8,6 @@ function auth(app) {
 
   router.post("/login", async (req, res) => {
     const result = await authServ.login(req.body);
-
     const token = result.token;
 
     return res.cookie("token", token, {
@@ -20,8 +19,18 @@ function auth(app) {
   });
   router.post("/signup", async (req, res) => {
     const result = await authServ.signup(req.body);
+    const token = result.token;
 
-    return res.json(result);
+    if(!result.success) {
+      return res.json(result);
+    }
+
+    return res.cookie("token", token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: "none",
+      expires: new Date(new Date().setDate(new Date().getDate() + 4))
+    }).json(result);
   });
 }
 
