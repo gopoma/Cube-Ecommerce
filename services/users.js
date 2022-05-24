@@ -1,7 +1,5 @@
 const UserModel = require("../models/user");
-const validationError = require("../helpers/validationError");
-const duplicatedError = require("../helpers/duplicatedError");
-
+const dbError = require("../helpers/dbError");
 class UserService {
   async getByEmail(email) {
     try {
@@ -21,18 +19,7 @@ class UserService {
         user
       };
     } catch(error) {
-      if(error.code === 11000) {
-        return {
-          created: false,
-          errors: duplicatedError(error.keyValue)
-        };
-      }
-
-      // Error en la validación
-      return {
-        created: false,
-        errors: validationError(error.errors)
-      };
+      return dbError(error);
     }
   }
 }
