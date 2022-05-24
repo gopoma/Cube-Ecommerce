@@ -1,30 +1,32 @@
 const express = require("express");
 const morgan = require("morgan");
-const cookie = require("cookie-parser");
+const cors = require("cors");
+const cookies = require("cookie-parser");
 const {port} = require("./config");
 const {connection} = require("./config/db");
 
-// Routes:
+// Importando routes:
 const auth = require("./routes/auth");
 const users = require("./routes/users");
 
 const app = express();
-
 connection();
-
-// Cookies. Diferentes tipos de cookies. HTTP Only Cookie
 
 // Utilizando middleware
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cookie());
+app.use(cors({
+  credentials: true,
+  origin:["http://localhost:3000"]
+}));
+app.use(cookies());
 
-// Usando rutas:
+// Utilizando las rutas:
 auth(app);
 users(app);
 
 app.get("/", (req, res) => {
-  return res.json({message:"Educational-Ecommerce"});
+  return res.json({message:"Cube-Ecommerce"});
 });
 
 app.listen(port, () => {
