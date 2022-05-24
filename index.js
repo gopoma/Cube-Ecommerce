@@ -3,6 +3,9 @@ const morgan = require("morgan");
 const {port} = require("./config");
 const {connection} = require("./config/db");
 
+// Routes:
+const auth = require("./routes/auth");
+
 const app = express();
 
 connection();
@@ -11,6 +14,10 @@ connection();
 
 // Utilizando middleware
 app.use(morgan("dev"));
+app.use(express.json());
+
+// Usando rutas:
+auth(app);
 
 app.get("/", (req, res) => {
   return res.json({message:"Educational-Ecommerce"});
