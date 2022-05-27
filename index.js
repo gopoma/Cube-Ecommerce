@@ -4,12 +4,12 @@ const cors = require("cors");
 const cookies = require("cookie-parser");
 const {port} = require("./config");
 const {connection} = require("./config/db");
-const passport = require("passport");
+// const passport = require("passport");
 
 // Importando routes:
 const auth = require("./routes/auth");
 const users = require("./routes/users");
-const {useGoogleStrategy} = require("./middleware/authProvider");
+// const {useGoogleStrategy} = require("./middleware/authProvider");
 
 const app = express();
 connection();
@@ -22,9 +22,9 @@ app.use(cors({
   origin:["http://localhost:3000"]
 }));
 app.use(cookies());
-app.use(passport.initialize());
+// app.use(passport.initialize());
 // Usando strategias
-passport.use(useGoogleStrategy());
+// passport.use(useGoogleStrategy());
 
 // Utilizando las rutas:
 auth(app);

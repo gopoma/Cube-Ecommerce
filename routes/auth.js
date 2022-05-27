@@ -5,11 +5,15 @@ const {
 } = require("../helpers/authResponse");
 const AuthService = require("../services/auth");
 const passport = require("passport");
+const {useGoogleStrategy} = require("../middleware/authProvider");
 
 function auth(app) {
   const router = express.Router();
   const authServ = new AuthService();
   app.use("/api/auth", router);
+  app.use(passport.initialize());
+  // Usando strategias
+  passport.use(useGoogleStrategy());
 
   router.post("/login", async (req, res) => {
     const result = await authServ.login(req.body);
