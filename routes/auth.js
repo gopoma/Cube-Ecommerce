@@ -1,15 +1,16 @@
 const express = require("express");
+const AuthService = require("../services/auth");
+const passport = require("passport");
+const {useGoogleStrategy} = require("../middleware/authProvider");
 const {
   authResponse,
   deleteCookie
 } = require("../helpers/authResponse");
-const AuthService = require("../services/auth");
-const passport = require("passport");
-const {useGoogleStrategy} = require("../middleware/authProvider");
 
 function auth(app) {
   const router = express.Router();
   const authServ = new AuthService();
+
   app.use("/api/auth", router);
   app.use(passport.initialize());
   // Usando strategias
@@ -29,7 +30,8 @@ function auth(app) {
   router.get("/google", passport.authenticate("google", {
     scope: ["email", "profile"]
   }));
-  router.get("/google/callback", passport.authenticate("google"), (req, res) => {
+  router.get("/google/callback", passport.authenticate("google", {session:false}), (req, res) => {
+    console.log(req.user.profile);
     return res.json({
       success: true,
       message: "Logged successfully"
