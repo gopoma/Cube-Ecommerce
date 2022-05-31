@@ -1,7 +1,6 @@
 const express = require("express");
 const AuthService = require("../services/auth");
 const passport = require("passport");
-const {useGoogleStrategy} = require("../middleware/authProvider");
 const {
   authResponse,
   deleteCookie
@@ -10,11 +9,7 @@ const {
 function auth(app) {
   const router = express.Router();
   const authServ = new AuthService();
-
   app.use("/api/auth", router);
-  app.use(passport.initialize());
-  // Usando strategias
-  passport.use(useGoogleStrategy());
 
   router.post("/login", async (req, res) => {
     const result = await authServ.login(req.body);
@@ -27,15 +22,15 @@ function auth(app) {
   router.get("/logout", (req, res) => {
     return deleteCookie(res);
   });
+
   router.get("/google", passport.authenticate("google", {
     scope: ["email", "profile"]
   }));
-  router.get("/google/callback", passport.authenticate("google", {session:false}), (req, res) => {
-    console.log(req.user.profile);
-    return res.json({
-      success: true,
-      message: "Logged successfully"
-    });
+  router.get("/google/callback", passport.authenticate("google", {session:false}), async (req, res) => {
+    const user = req.user.profile;
+    console.log(user);
+    const result = await authServ.socialLogin(user);
+    return authResponse(res, result, 401);
   });
 }
 
