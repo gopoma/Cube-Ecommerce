@@ -3,6 +3,7 @@ const AuthService = require("../services/auth");
 const passport = require("passport");
 const {
   authResponse,
+  providerResponse,
   deleteCookie
 } = require("../helpers/authResponse");
 
@@ -30,7 +31,7 @@ function auth(app) {
     const user = req.user.profile;
     console.log(user);
     const result = await authServ.socialLogin(user);
-    return authResponse(res, result, 401);
+    return providerResponse(res, result, 401);
   });
 }
 
