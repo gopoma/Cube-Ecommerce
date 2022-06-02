@@ -33,6 +33,10 @@ function auth(app) {
     const result = await authServ.socialLogin(user);
     return providerResponse(res, result, 401);
   });
+  router.get("/facebook", passport.authenticate("facebook"));
+  router.get("/facebook/callback", passport.authenticate("facebook", {session:false}), async (req, res) => {
+    return res.json(req.user.profile);
+  });
 }
 
 module.exports = auth;
