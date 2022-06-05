@@ -3,7 +3,6 @@ require("dotenv").config();
 const config = {
   production: process.env.NODE_ENV === "production",
   development: process.env.NODE_ENV === "development",
-  port: process.env.PORT,
   jwtSecret: process.env.JWT_SECRET,
   dbUsername: process.env.DB_USERNAME,
   dbPassword: process.env.DB_PASSWORD,
@@ -16,5 +15,6 @@ const config = {
   callbackURL: process.env.CALLBACK_URL,
   callbackURLDev: process.env.CALLBACK_URL_DEVELOPMENT
 };
+config.port = config.production ? process.env.PORT : 4000;
 
 module.exports = config;
