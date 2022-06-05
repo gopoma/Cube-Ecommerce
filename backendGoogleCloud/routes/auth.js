@@ -23,6 +23,12 @@ function auth(app) {
   router.get("/logout", (req, res) => {
     return deleteCookie(res);
   });
+  router.get("/validate", authValidation(1), (req, res)=>{
+    return res.json({
+        success: true,
+        user: req.user
+    });
+  });
 
   router.get("/google", passport.authenticate("google", {
     scope: ["email", "profile"]

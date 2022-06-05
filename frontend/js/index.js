@@ -1,5 +1,9 @@
-const production = false;
+const production = true;
 const BASE_URL = production ? "https://still-plateau-02291.herokuapp.com" : "http://localhost:4000"
+const statusElement = document.querySelector("#status");
+
+const urk = `${BASE_URL}/api/auth/`;
+
 const signUpForm = document.querySelector("#signUpForm");
 signUpForm.onsubmit = function() {
   const url = `${BASE_URL}/api/auth/signup`;
@@ -13,12 +17,16 @@ signUpForm.onsubmit = function() {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
+    credentials: 'include'
   }
 
   fetch(url, request)
   .then(response => response.json())
-  .then(data => {console.log(data);})
+  .then(data => {
+    // console.log(data);
+    statusElement.textContent = data.success ? "Logged In" : "A wild error in SignUp was appeared!"
+  })
   return false;
 }
 
@@ -34,12 +42,16 @@ logInForm.onsubmit = function() {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify(credentials)
+    body: JSON.stringify(credentials),
+    credentials: 'include'
   };
 
   fetch(url, request)
   .then(response => response.json())
-  .then(data => {console.log(data);})
+  .then(data => {
+    console.log(data);
+    statusElement.textContent = data.success ? "Logged In" : data.errors[0];
+  })
 
   return false;
 }
@@ -47,7 +59,19 @@ logInForm.onsubmit = function() {
 const btnLogOut = document.querySelector("#btnLogOut");
 btnLogOut.onclick = function() {
   const url = `${BASE_URL}/api/auth/logout`;
-  fetch(url)
+  fetch(url, {credentials: 'include'})
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    statusElement.textContent = "Invitado"; 
+  })
+}
+
+const btnFetchUsers = document.querySelector("#btnFetchUsers");
+btnFetchUsers.onclick = function() {
+  const url = `${BASE_URL}/api/users`;
+
+  fetch(url, {credentials: 'include'})
   .then(response => response.json())
   .then(data => {console.log(data);})
 }

@@ -1,3 +1,9 @@
 body {
-  background-color: peru;
+  background-color: #F3F3F3;
+}
+
+.status {
+  padding: 0.75rem;
+  background-color: #333;
+  color: #FFF;
 }
