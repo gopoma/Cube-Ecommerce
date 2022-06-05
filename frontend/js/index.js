@@ -2,7 +2,10 @@ const production = true;
 const BASE_URL = production ? "https://still-plateau-02291.herokuapp.com" : "http://localhost:4000"
 const statusElement = document.querySelector("#status");
 
-const urk = `${BASE_URL}/api/auth/`;
+const url = `${BASE_URL}/api/auth/validate`;
+fetch(url, {credentials:'include'})
+.then(response => response.json())
+.then(data => {console.log(data);})
 
 const signUpForm = document.querySelector("#signUpForm");
 signUpForm.onsubmit = function() {
