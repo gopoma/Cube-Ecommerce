@@ -1,7 +1,7 @@
 const express = require("express");
 const AuthService = require("../services/auth");
 const passport = require("passport");
-const {authValidation} = require("../middleware/auth");
+const authValidation = require("../middleware/auth");
 const {
   authResponse,
   providerResponse,
