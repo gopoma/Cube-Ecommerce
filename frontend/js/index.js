@@ -5,7 +5,10 @@ const statusElement = document.querySelector("#status");
 const url = `${BASE_URL}/api/auth/validate`;
 fetch(url, {credentials:'include'})
 .then(response => response.json())
-.then(data => {console.log(data);})
+.then(data => {
+  console.log(data);
+  statusElement.textContent = data.success ? "Logged In" : "Invitado";
+})
 
 const signUpForm = document.querySelector("#signUpForm");
 signUpForm.onsubmit = function() {
