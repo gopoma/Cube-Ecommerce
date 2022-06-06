@@ -1,11 +1,11 @@
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 const { 
+  production, 
   oauthClientID, 
   oauthClientSecret,
   facebookAppID,
   facebookAppSecret,
-  production, 
   callbackURL,
   callbackURLDev
 } = require("../config");
@@ -24,7 +24,8 @@ const useFacebookStrategy = () => {
   return new FacebookStrategy({
     clientID: facebookAppID,
     clientSecret: facebookAppSecret,
-    callbackURL: callbackUrl("facebook")
+    callbackURL: callbackUrl("facebook"),
+    profileFields: ["id", "emails", "displayName", "name", "photos"]
   }, (accessToken, refreshToken, profile, done) => {
     done(null, {profile});
   })
@@ -34,3 +35,4 @@ module.exports = {
   useGoogleStrategy,
   useFacebookStrategy
 };
+// XD

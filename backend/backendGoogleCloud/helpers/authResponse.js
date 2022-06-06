@@ -24,7 +24,7 @@ function providerResponse(res, result, statusCode) {
       secure: production, // Solo disponible a través de https*
       sameSite: "none",
       expires: new Date(new Date().setDate(new Date().getDate() + 7))
-    }).redirect("http://localhost:5500/frontend/index.html");
+    }).redirect("http://localhost:5500");
   }
 
   return res.status(statusCode).json(result);

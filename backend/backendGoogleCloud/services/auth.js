@@ -24,6 +24,7 @@ class AuthService {
     if(data && data.password) {
       data.password = await this.#encrypt(data.password);
     }
+    data.provider = {local:true};
 
     const userServ = new UserService();
     const result = await userServ.create(data);
@@ -46,7 +47,15 @@ class AuthService {
       profilePic: data.photos[0].value,
       provider: data.provider
     };
-    const result = await userServ.getOrCreate(user);
+    const result = await userServ.getOrCreateByProvider(user);
+
+    if(!result.created) {
+      // Verificar si el correo está en uso
+      return {
+        success: false,
+        errors: result.errors
+      }
+    }
 
     return this.#getUserData(result);
   }
@@ -56,6 +65,8 @@ class AuthService {
       id: user.id,
       name: user.name,
       email: user.email,
+      provider: user.provider,
+      idProvider: user.idProvider,
       role: user.role
     };
 

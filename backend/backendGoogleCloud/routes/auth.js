@@ -26,8 +26,8 @@ function auth(app) {
   });
   router.get("/validate", authValidation(1), (req, res)=>{
     return res.json({
-        success: true,
-        user: req.user
+      success: true,
+      user: req.user
     });
   });
 
@@ -36,13 +36,17 @@ function auth(app) {
   }));
   router.get("/google/callback", passport.authenticate("google", {session:false}), async (req, res) => {
     const user = req.user.profile;
-    console.log(user);
     const result = await authServ.socialLogin(user);
     return providerResponse(res, result, 401);
   });
-  router.get("/facebook", passport.authenticate("facebook"));
+  router.get("/facebook", passport.authenticate("facebook", {
+    scope: ["email"]
+  }));
   router.get("/facebook/callback", passport.authenticate("facebook", {session:false}), async (req, res) => {
-    return res.json(req.user.profile);
+    const user = req.user.profile;
+    console.log(user);
+    const result = await authServ.socialLogin(user);
+    return providerResponse(res, result, 401);
   });
 }
 

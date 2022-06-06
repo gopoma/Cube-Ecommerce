@@ -12,13 +12,53 @@ class UserService {
     }
   }
 
-  async getOrCreate(data) {
-    const user = await UserModel.findOne({provider:data.provider, idProvider:data.idProvider});
+  async getOrCreateByProvider(data) {
+    let user = await UserModel.findOne({
+      provider: {
+        [data.provider]: true
+      }, 
+      idProvider: {
+        [data.provider]: data.idProvider
+      }
+    });
     if(user) {
-      return user;
+      return {
+        created: true,
+        user
+      };
     }
     data.password = uuid.v4();
-    return await UserModel.create(data);
+    const newData = {
+      ...data,
+      provider: {
+        [data.provider]: true
+      },
+      idProvider: {
+        [data.provider]: data.idProvider
+      }
+    };
+    try {
+      user = await UserModel.create(newData);
+
+      return {
+        created: true,
+        user
+      }
+    } catch(error) {
+      if(error.code === 11000 && error.keyValue.email) { // Duplicated Entry
+        const email = error.keyValue.email;
+        user = await UserModel.updateOne({email}, {
+          [`provider.${data.provider}`]: true,
+          [`idProvider.${data.provider}`]: data.idProvider
+        }, {new:true});
+        
+        return {
+          created: true,
+          user
+        }
+      }
+      return dbError(error);
+    }
   }
 
   async create(data) {
