@@ -40,7 +40,8 @@ const useTwitterStrategy = () => {
   return new TwitterStrategy({
     consumerKey: twitterConsumerKey,
     consumerSecret: twitterConsumerSecret,
-    callbackURL: callbackUrl("twitter")
+    callbackURL: callbackUrl("twitter"),
+    includeEmail: true
   }, getProfile);
 }
 const useGitHubStrategy = () => {
@@ -48,6 +49,7 @@ const useGitHubStrategy = () => {
     clientID: githubClientID,
     clientSecret: githubClientSecret,
     callbackURL: callbackUrl("github"),
+    scope: ["user:email"]
   }, getProfile);
 }
 

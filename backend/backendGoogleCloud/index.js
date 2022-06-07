@@ -1,8 +1,9 @@
 const express = require("express");
+const session = require("express-session");
 const morgan = require("morgan");
 const cors = require("cors");
 const cookies = require("cookie-parser");
-const {port} = require("./config");
+const {port, sessionSecret} = require("./config");
 const {connection} = require("./config/db");
 const passport = require("passport");
 
@@ -24,17 +25,29 @@ connection();
 // Utilizando middleware
 app.use(morgan("dev"));
 app.use(express.json());
+app.use(cookies());
 app.use(cors({
   origin:["http://127.0.0.1:5500"],
   credentials: true
 }));
-app.use(cookies());
+app.use(session({
+  secret: sessionSecret,
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(passport.initialize());
 // Usando Estrategias
 passport.use(useGoogleStrategy());
 passport.use(useFacebookStrategy());
 passport.use(useTwitterStrategy());
 passport.use(useGitHubStrategy());
+
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
 
 // Utilizando las rutas:
 auth(app);
