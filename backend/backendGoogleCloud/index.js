@@ -13,7 +13,9 @@ const users = require("./routes/users");
 // Importando Estrategias
 const {
   useGoogleStrategy,
-  useFacebookStrategy
+  useFacebookStrategy,
+  useTwitterStrategy,
+  useGitHubStrategy
 } = require("./middleware/authProvider");
 
 const app = express();
@@ -31,6 +33,8 @@ app.use(passport.initialize());
 // Usando Estrategias
 passport.use(useGoogleStrategy());
 passport.use(useFacebookStrategy());
+passport.use(useTwitterStrategy());
+passport.use(useGitHubStrategy());
 
 // Utilizando las rutas:
 auth(app);

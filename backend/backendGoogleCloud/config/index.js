@@ -13,6 +13,10 @@ const config = {
   oauthClientSecret: process.env.OAUTH_CLIENT_SECRET,
   facebookAppID: process.env.FACEBOOK_APP_ID,
   facebookAppSecret: process.env.FACEBOOK_APP_SECRET,
+  twitterConsumerKey: process.env.TWITTER_CONSUMER_KEY,
+  twitterConsumerSecret: process.env.TWITTER_CONSUMER_SECRET,
+  githubClientID: process.env.GITHUB_CLIENT_ID,
+  githubClientSecret: process.env.GITHUB_CLIENT_SECRET,
   callbackURL: process.env.CALLBACK_URL,
   callbackURLDev: process.env.CALLBACK_URL_DEVELOPMENT
 };
