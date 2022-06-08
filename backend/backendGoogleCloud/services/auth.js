@@ -57,7 +57,7 @@ class AuthService {
       }
     }
 
-    return this.#getUserData(result);
+    return this.#getUserData(result.user);
   }
 
   #getUserData(user) {

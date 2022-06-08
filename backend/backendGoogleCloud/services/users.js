@@ -14,12 +14,8 @@ class UserService {
 
   async getOrCreateByProvider(data) {
     let user = await UserModel.findOne({
-      provider: {
-        [data.provider]: true
-      }, 
-      idProvider: {
-        [data.provider]: data.idProvider
-      }
+      [`provider.${data.provider}`]: true,
+      [`idProvider.${data.provider}`]: data.idProvider
     });
     if(user) {
       return {

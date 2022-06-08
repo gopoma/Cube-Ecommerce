@@ -44,7 +44,6 @@ function auth(app) {
   }));
   router.get("/facebook/callback", passport.authenticate("facebook", {session:false}), async (req, res) => {
     const user = req.user.profile;
-    console.log(user);
     const result = await authServ.socialLogin(user);
     return providerResponse(res, result, 401);
   });
