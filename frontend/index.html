@@ -4,50 +4,34 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cube-Ecommerce</title>
+  <title>TheCubicle</title>
   <link rel="stylesheet" href="./css/styles.css">
   <script defer src="./js/index.js"></script>
 </head>
 <body>
-  <h1>Cube-Ecommerce</h1>
-
-  <hr>
-
-  <span class="status" id="status">Invitado</span>
-
-  <hr>
-
-  <h3>SignUp</h3>
-  <form id="signUpForm">
-    <input type="text" name="name" placeholder="Name">
-    <input type="email" name="email" placeholder="Email">
-    <input type="password" name="password" placeholder="Password">
-    <button>SignUp</button>
-  </form>
-
-  <hr>
-
-  <h3>LogIn</h3>
-  <div>
-    <a href="https://still-plateau-02291.herokuapp.com/api/auth/google">Google</a>
-    <a href="https://still-plateau-02291.herokuapp.com/api/auth/facebook">Facebook</a>
-    <a href="https://still-plateau-02291.herokuapp.com/api/auth/twitter">Twitter</a>
-    <a href="https://still-plateau-02291.herokuapp.com/api/auth/github">GitHub</a>
-  </div>
-  <form id="logInForm">
-    <input type="email" name="email" placeholder="Email">
-    <input type="password" name="password" placeholder="Password">
-    <button>Login</button>
-  </form>
-
-  <hr>
-
-  <h3>LogOut</h3>
-  <button id="btnLogOut">LogOut</button>
-
-  <hr>
-
-  <h3>Fetch users</h3>
-  <button id="btnFetchUsers">Fetch users</button>
+  <header class="header">
+    <h1 class="header__title">TheCubicle</h1>
+  </header>
+  <nav class="navbar">
+    <ul id="menu" class="navbar__links">
+      <p class="navbar__link" onclick="showWelcome()">Home</p>
+      <p class="navbar__link" onclick="showLogin()">Login</p>
+      <p class="navbar__link" onclick="showSignUp()">SignUp</p>
+    </ul>
+  </nav>
+  <main>
+    <section>
+      <section id="main"></section>
+    </section>
+    <section>
+      <aside>
+      </aside>
+      <aside></aside>
+    </section>
+  </main>
+  <footer>
+    <p>The following page is under the MIT license, Version 2.0</p>
+  </footer>
+  <section id="messages" class="messages"></section>
 </body>
 </html>

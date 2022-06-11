@@ -1,5 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto";
+}
+:root {
+  --fs-sm: 0.75rem;
+  --fs-regular: 1.2rem;
+  --fs-lg: 1.75rem;
+  --fs-xl: 2.25rem;
+}
+
 body {
-  background-color: #F3F3F3;
+  background-color: #F1F1F1;
+}
+
+.header {
+  background-color: #FFF;
+}
+.header__title {
+  padding: 1.75rem;
+  font-size: var(--fs-xl);
+  text-align: center; 
+}
+
+.navbar {
+  background-color: #333;
+}
+.navbar__links {
+  display: flex;
+  align-items: center;
+}
+.navbar__link {
+  padding: 1.2rem;
+  font-size: var(--fs-regular);
+  color: #FFF;
+}
+.navbar__link:hover {
+  color: #000;
+  background-color: #DDD;
+  cursor: pointer;
+}
+.navbar__link--danger {
+  background-color: crimson;
+}
+.navbar__link--danger:hover {
+  color: #000;
+  background-color: #F5C6CB;
+}
+
+.messages {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 0.75rem;
+  flex-direction: column;
+}
+.message {
+  padding: 0.75rem;
+  display: flex;
+  gap: 0.75rem;
+  justify-content: space-between;
+  align-items: center;
+}
+.message--error {
+  border: 2px solid #F5C6CB;
+  color: #721C24;
+  background-color: #F8D7DA;
+}
+.message--info {
+  border: 2px solid #B8DAFF;
+  color: #004085;
+  background-color: #CCE5FF;
+}
+.message__closer:hover {
+  color: #F00;
+  cursor: pointer;
 }
 
 .status {
@@ -7,3 +86,4 @@ body {
   background-color: #333;
   color: #FFF;
 }
+
