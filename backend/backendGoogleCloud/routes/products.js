@@ -9,7 +9,8 @@ function products(app) {
   app.use("/api/products", router);
 
   router.get("/search", async (req, res) => {
-    return res.json({message: "works"});
+    const result = await productServ.search(req.query);
+    return res.json(result);
   });
   router.get("/:idProduct", async (req, res) => {
     const result = await productServ.get(req.params.idProduct);

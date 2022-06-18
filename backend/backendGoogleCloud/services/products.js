@@ -13,6 +13,23 @@ class ProductService {
     return await ProductModel.findById(idProduct);
   }
   
+  async filterByBrand(brand) {
+    return await ProductModel.find({ 
+      brand: { $regex: `.*${brand}.*`, $options: "i" }
+    });
+  }
+
+  async search(queryFilters) {
+    let { brand, price, categorie } = queryFilters;
+    [brand, price, categorie] = [brand?.trim(), price?.trim(), categorie?.trim()];
+
+    if(brand && !price && !categorie) {
+      return await this.filterByBrand(brand);
+    }
+
+    return queryFilters;
+  }
+
   async create(data) {
     try {
       const product = await ProductModel.create(data);
