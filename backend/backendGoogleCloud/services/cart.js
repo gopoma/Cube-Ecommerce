@@ -8,12 +8,12 @@ class CartService {
   }
 
   async addToCart(idUser, idProduct, amount) {
-    const cart = await CartModel.findOne({
+    const alreadyThere = await CartModel.findOne({
       _id: idUser,
       "items.product": idProduct
     });
 
-    if(cart) {
+    if(alreadyThere) {
       await CartModel.updateOne(
         {_id: idUser, "items.product": idProduct}, 
         {$inc: {"items.$.amount": amount}}, 
