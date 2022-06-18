@@ -14,8 +14,8 @@ class ProductService {
   }
   
   async search(queryFilters) {
-    let { brand, price, categorie } = queryFilters;
-    [brand, price, categorie] = [brand?.trim(), price?.trim(), categorie?.trim()];
+    let { brand, price, categorie, owner, name } = queryFilters;
+    [brand, price, categorie, owner, name] = [brand?.trim(), price?.trim(), categorie?.trim(), owner?.trim(), name?.trim()];
 
     let queryBody = {};
     if(brand) {
@@ -37,6 +37,18 @@ class ProductService {
           $elemMatch:{$regex: `.*${categorie}.*`, $options: "i"}
         }
       }
+    }
+    if(owner) {
+      queryBody = {
+        ...queryBody,
+        owner
+      };
+    }
+    if(name) {
+      queryBody = {
+        ...queryBody,
+        name: {$regex: `.*${name}.*`, $options: "i"}
+      };
     }
 
     return await ProductModel.find(queryBody);
