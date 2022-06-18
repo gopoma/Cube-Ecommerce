@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide password"]
   },
+  location: {
+    state: String,
+    city: String,
+    district: String
+  },
   role: {
     type: Number,
     default: 1
