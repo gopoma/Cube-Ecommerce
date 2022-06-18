@@ -1,4 +1,4 @@
-const {mongoose} = require("../config/db");
+const { mongoose } = require("../config/db");
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -13,13 +13,21 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Please provide price"]
   },
-  image: {
-    type: String,
-    required: [true, "Please provide image"]
+  images: {
+    type: [String],
+    required: [true, "Please provide an image"]
+  },
+  categories: {
+    type: [String],
+    required: [true, "Please provide a categorie"]
   },
   stock: {
     type: Number,
     required: [true, "Please provide stock"]
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user"
   }
 });
 

@@ -10,6 +10,8 @@ const passport = require("passport");
 // Importando routes:
 const auth = require("./routes/auth");
 const users = require("./routes/users");
+const cart = require("./routes/cart");
+const products = require("./routes/products");
 
 // Importando Estrategias
 const {
@@ -34,7 +36,7 @@ app.use(session({
   secret: sessionSecret,
   resave: false,
   saveUninitialized: false
-}));
+})); // Redis
 app.use(passport.initialize());
 // Usando Estrategias
 passport.use(useGoogleStrategy());
@@ -52,6 +54,8 @@ passport.deserializeUser((user, done) => {
 // Utilizando las rutas:
 auth(app);
 users(app);
+cart(app);
+products(app);
 
 app.get("/", (req, res) => {
   return res.json({message:"Cube-Ecommerce"});

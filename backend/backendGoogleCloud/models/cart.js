@@ -1,13 +1,13 @@
 const {mongoose} = require("../config/db");
 
 const cartSchema = new mongoose.Schema({
-  owner: {
+  _id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user"
   },
   items: [
     {
-      _id: {
+      product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "product"
       },
@@ -16,6 +16,6 @@ const cartSchema = new mongoose.Schema({
   ]
 });
 
-const CartModel = mongoose.modeol("cart", cartSchema);
+const CartModel = mongoose.model("cart", cartSchema);
 
 module.exports = CartModel;
