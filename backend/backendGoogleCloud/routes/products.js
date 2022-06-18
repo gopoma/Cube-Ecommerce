@@ -8,6 +8,10 @@ function products(app) {
 
   app.use("/api/products", router);
 
+  router.get("/:idProduct", async (req, res) => {
+    const result = await productServ.get(req.params.idProduct);
+    return res.json(result);
+  });
   router.get("/", async (req, res) => {
     const result = await productServ.getAll();
     return res.json(result);

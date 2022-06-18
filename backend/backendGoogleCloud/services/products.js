@@ -3,6 +3,10 @@ const { stripeSecretKey } = require("../config");
 const stripe = require("stripe")(stripeSecretKey);
 
 class ProductService {
+  async get(idProduct) {
+    return await ProductModel.findById(idProduct);
+  }
+  
   async getAll() {
     const products = await ProductModel.find();
     return products;
