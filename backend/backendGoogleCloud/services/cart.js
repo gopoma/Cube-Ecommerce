@@ -8,16 +8,30 @@ class CartService {
   }
 
   async addToCart(idUser, idProduct, amount) {
-    const result = await CartModel.findByIdAndUpdate(idUser, {
-      $push: {
-        items: {
-          product: idProduct,
-          amount
-        }
-      }
-    }, {new:true}).populate("items._id", "name price");
+    const cart = await CartModel.findOne({
+      _id: idUser,
+      "items.product": idProduct
+    });
 
-    return result;
+    if(cart) {
+      await CartModel.updateOne(
+        {_id: idUser, "items.product": idProduct}, 
+        {$inc: {"items.$.amount": amount}}, 
+      );
+      return await CartModel.findById(idUser);
+    } else {
+      const result = await CartModel.findByIdAndUpdate(idUser, {
+        $push: {
+          items: {
+            product: idProduct,
+            amount
+          }
+        }
+      }, {new:true}).populate("items._id", "name price");
+  
+      return result;
+    }
+
   }
 
   async removeFromCart(idUser, idProduct) {
