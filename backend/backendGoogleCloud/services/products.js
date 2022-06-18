@@ -1,5 +1,6 @@
 const ProductModel = require("../models/product");
 const { stripeSecretKey } = require("../config");
+const dbError = require("../helpers/dbError");
 const stripe = require("stripe")(stripeSecretKey);
 
 class ProductService {
@@ -13,8 +14,12 @@ class ProductService {
   }
   
   async create(data) {
-    const product = await ProductModel.create(data);
-    return product;
+    try {
+      const product = await ProductModel.create(data);
+      return product;
+    } catch(error) {
+      return dbError(error);
+    }
   }
 }
 
