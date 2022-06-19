@@ -15,20 +15,20 @@ El sistema fué desarrollado usando estas tecnologías:
 
 **Librerías empleadas en el lado del Servidor:**
 
-* bcrypt
-* cookie-parser
-* cors
-* cross-env
-* dotenv
-* express
-* express-session
-* jsonwebtoken
-* mongoose
-* morgan
-* passport
-* passport-facebook
-* passport-github2
-* passport-google-oauth20
-* passport-twitter
-* stripe
-* uuid
+* `bcrypt`
+* `cookie-parser`
+* `cors`
+* `cross-env`
+* `dotenv`
+* `express`
+* `express-session`
+* `jsonwebtoken`
+* `mongoose`
+* `morgan`
+* `passport`
+* `passport-facebook`
+* `passport-github2`
+* `passport-google-oauth20`
+* `passport-twitter`
+* `stripe`
+* `uuid`
