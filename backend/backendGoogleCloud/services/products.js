@@ -4,9 +4,33 @@ const dbError = require("../helpers/dbError");
 const stripe = require("stripe")(stripeSecretKey);
 
 class ProductService {
-  async getAll() {
-    const products = await ProductModel.find();
-    return products;
+  git async getAll(limit = 25, page = 1) {
+    const count = await ProductModel.count();
+    const pageNumbers = count / limit;
+    const totalPages = Math.ceil(pageNumbers);
+
+    if(page > totalPages) {
+      return {
+        success: false,
+        message: "Specified page doesn't exist"
+      };
+    }
+
+    const skip = (page - 1) * limit;
+    const products = await ProductModel.find().skip(skip).limit(limit);
+
+    const nextPage = (page === totalPages)? null : `/api/products?limit=${limit}&page=${page + 1}`;
+    const prevPage = (page === 1)? null : `/api/products?limit=${limit}&page=${page - 1}`;
+
+    return {
+      success: true,
+      data: products,
+      total: count,
+      page,
+      nextPage,
+      prevPage,
+      totalPages
+    };
   }
   
   async get(idProduct) {

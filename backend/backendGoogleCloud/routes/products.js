@@ -17,7 +17,10 @@ function products(app) {
     return res.json(result);
   });
   router.get("/", async (req, res) => {
-    const result = await productServ.getAll();
+    const limit = parseInt(req.query.limit) || undefined;
+    const page = parseInt(req.query.page) || undefined;
+
+    const result = await productServ.getAll(limit, page);
     return res.json(result);
   });
   router.post("/", authValidation(1), async (req, res) => {
