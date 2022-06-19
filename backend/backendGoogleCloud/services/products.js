@@ -14,8 +14,8 @@ class ProductService {
   }
   
   async search(queryFilters) {
-    let { brand, price, categorie, owner, name } = queryFilters;
-    [brand, price, categorie, owner, name] = [brand?.trim(), price?.trim(), categorie?.trim(), owner?.trim(), name?.trim()];
+    let { brand, price, categorie, owner, name, offer, magnetic } = queryFilters;
+    [brand, price, categorie, owner, name, offer, magnetic] = [brand?.trim(), price?.trim(), categorie?.trim(), owner?.trim(), name?.trim(), offer?.trim(), magnetic?.trim()];
 
     let queryBody = {};
     if(brand) {
@@ -50,8 +50,24 @@ class ProductService {
         name: {$regex: `.*${name}.*`, $options: "i"}
       };
     }
+    if(offer) {
+      queryBody = {
+        ...queryBody,
+        offer: this.parseBoolean(offer)
+      };
+    }
+    if(magnetic) {
+      queryBody = {
+        ...queryBody,
+        magnetic: this.parseBoolean(magnetic)
+      };
+    }
 
     return await ProductModel.find(queryBody);
+  }
+
+  parseBoolean(value) {
+    return (value === "1" || value === "true")? true : false;
   }
 
   async create(data) {

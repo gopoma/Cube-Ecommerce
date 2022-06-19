@@ -17,6 +17,14 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Please provide price"]
   },
+  offer: {
+    type: Boolean,
+    default: false
+  },
+  magnetic: {
+    type: Boolean,
+    default: false
+  },
   images: {
     type: [String],
     required: [true, "Please provide an image"]
