@@ -4,7 +4,7 @@ const dbError = require("../helpers/dbError");
 const stripe = require("stripe")(stripeSecretKey);
 
 class ProductService {
-  git async getAll(limit = 25, page = 1) {
+  async getAll(limit = 25, page = 1) {
     const count = await ProductModel.count();
     const pageNumbers = count / limit;
     const totalPages = Math.ceil(pageNumbers);
