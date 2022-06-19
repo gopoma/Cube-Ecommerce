@@ -75,3 +75,5 @@ Es en tal medida que se tenía que buscar otra solución y entra ahí utilizar u
 
 * En el manejo de valores booleanos en los query params, se utilizó la siguiente referencia de [mailchimp developer](https://mailchimp.com/developer/release-notes/handling-boolean-query-parameters/)
 como guía para la implementación, además de desarrollar la función `parseBoolean` para lograr el cometido.
+
+* Se realizó una refactorización del método `getOrCreateByProvider` custom, teniendo como detonador de posibles Errores la Interfaz implementada en el FrontEnd, en donde había un inconveniente con vincular varios proveedores a un solo correo tanto para el caso de ya contar con el proveedor local o como no contarlo.
