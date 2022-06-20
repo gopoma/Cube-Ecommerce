@@ -180,7 +180,7 @@ function showMenuUserLogged() {
 }
 */
 
-function showProducts(limit = 2, page = 1) {
+function showProducts(limit = 3, page = 1) {
   const url = `${BASE_URL}/api/products?limit=${limit}&page=${page}`;
   fetch(url, {credentials: 'include'})
   .then(response => response.json())
@@ -221,7 +221,6 @@ function showProducts(limit = 2, page = 1) {
       </div>
     `;
   });
-
 }
 
 function showCart() {
