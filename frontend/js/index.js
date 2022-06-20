@@ -180,10 +180,10 @@ function showProducts(limit = 4, page = 1) {
       productsComponent += `
         <article class="product">
           <div class="product__img-container">
-            <img class="product__img" src="${product.images[0]}">
+            <img class="product__img" src="${product.images[0]}" onclick="showProductDetails('${product._id}')">
           </div>
           <div class="product__details">
-            <h4 class="product__name">${product.name}</h4>
+            <h4 class="product__name" onclick="showProductDetails('${product._id}')">${product.name}</h4>
             <div class="product__prizing">
               <strong class="product__price">$${product.price}</strong>
               ${product.offer?"<span class='product__offer'>Special Offer</span>":""}
@@ -212,11 +212,87 @@ function showProducts(limit = 4, page = 1) {
   });
 }
 
+function showProductDetails(idProduct) {
+  fetch(`${BASE_URL}/api/products/${idProduct}`, {credentials:"include"})
+  .then(response => response.json())
+  .then(product => {
+    let categoriesComponent = "";
+    product.categories?.forEach(categorie => {
+      categoriesComponent += `
+        <span class="d-product__categorie">${categorie}</span>
+      `;
+    });
+    let imagesComponent = "";
+    product.images?.forEach(image => {
+      imagesComponent += `
+        <img class="d-product__image" src="${image}">
+      `;
+    });
+    document.querySelector("#main").innerHTML = `
+      <article class="d-product">
+        <h3 class="d-product__name">${product.name}</h3>
+        <p class="d-product__description">${product.description}</p>
+        <div class="d-product__details">
+          <p><b>Brand: </b>${product.brand}</p>
+          <p><b>Price: </b>${product.price}</p>
+          <p><b>Stock: </b>${product.stock}</p>
+          ${product.magnetic?"<span class='d-product__magnetic'>Magnetic</span>":""}
+          ${product.offer?"<span class='d-product__offer'>Special Offer</span>":""}
+        </div>
+        <div class="d-product__categories">${categoriesComponent}</div>
+        <div class="d-product__images">${imagesComponent}</div>
+      </article>
+    `;
+  })
+}
+
 function showCart() {
-  const main = document.querySelector("#main");
-  main.innerHTML = `
-    <h2>My Cart</h2>
-  `;
+  const url = `${BASE_URL}/api/cart`;
+  fetch(url, {credentials:'include'})
+  .then(response => response.json())
+  .then(cart => {
+    let cartItemsComponent = "";
+
+    const { items:cartItems } = cart;
+    cartItems.forEach(cartItem => {
+      const { product } = cartItem;
+      cartItemsComponent += `
+        <article class="cart-item">
+          <h4 class="cart-item__name">${product.name}<h4>
+          <div class="cart-item__details">
+            <p>${cartItem.amount}x</p>
+            <div class="cart-item__prizing">
+              <strong class="cart-item__price">$${product.price}</strong>
+              <p class="cart-item__closer" class="cart" onclick="removeFromCart('${product._id}')">✘</p>
+            </div>
+          </div>
+        </article>
+      `;
+    });
+
+    const main = document.querySelector("#main");
+    main.innerHTML = `
+      <h2>My Cart</h2>
+      <section class="cart-items">${cartItemsComponent}</section>
+    `;
+  })
+}
+
+function removeFromCart(idProduct) {
+  const url = `${BASE_URL}/api/cart/remove`;
+  const request = {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({idProduct}),
+    credentials: 'include'
+  };
+
+  fetch(url, request)
+  .then(response => response.json())
+  .then(() => {showCart();})
+  .catch(console.log)
 }
 
 const stripe = Stripe("pk_test_51L9NxJD28vZl8nCxjym2k2xlkLTvH1iaRCihO9Hi1VWCS9cmrduJ3nHcUUFykQbvYSLWxmm446GlKndddE8vI0im00GxOSBXFi");
