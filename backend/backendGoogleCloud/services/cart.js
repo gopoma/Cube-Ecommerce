@@ -48,7 +48,6 @@ class CartService {
 
   async pay(idUser) {
     const result = await this.getItems(idUser);
-
     if(!result) {
       return {
         success: false,
@@ -56,9 +55,10 @@ class CartService {
       }
     }
 
-    const total = result.items.reduce((result, item) => {
+    let total = result.items.reduce((result, item) => {
       return result + (item.product.price * item.amount)
-    }, 0) * 100;
+    }, 0);
+    total = Math.round(total * 100); 
 
     if(total < 1) {
       return {
@@ -96,3 +96,4 @@ class CartService {
 }
 
 module.exports = CartService;
+// XD
