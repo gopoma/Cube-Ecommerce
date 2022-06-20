@@ -168,19 +168,7 @@ function doLogOut() {
   })
 }
 
-/*
-function showMenuUserLogged() {
-  const menu = document.querySelector("#menu");
-  menu.innerHTML = `
-    <p class="navbar__link" onclick="showWelcome()">Home</p>
-    <p class="navbar__link" onclick="showProducts()">Products</p>
-    <p class="navbar__link" onclick="showCart()">My Cart</p>
-    <p class="navbar__link navbar__link--danger" onclick="doLogOut()">LogOut</p>
-  `;
-}
-*/
-
-function showProducts(limit = 3, page = 1) {
+function showProducts(limit = 4, page = 1) {
   const url = `${BASE_URL}/api/products?limit=${limit}&page=${page}`;
   fetch(url, {credentials: 'include'})
   .then(response => response.json())
