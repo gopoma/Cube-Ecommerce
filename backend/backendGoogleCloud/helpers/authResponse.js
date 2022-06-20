@@ -24,7 +24,7 @@ function providerResponse(res, result, statusCode) {
       secure: true, // || production, // Solo disponible a través de https*
       sameSite: "none",
       expires: new Date(new Date().setDate(new Date().getDate() + 7))
-    }).redirect("http://127.0.0.1:5500/frontend/index.html");
+    }).redirect("https://cube-ecommerce-frontend.vercel.app");
   }
 
   return res.status(statusCode).json(result);
@@ -47,3 +47,4 @@ module.exports = {
   providerResponse,
   deleteCookie
 };
+// XD
