@@ -1,4 +1,4 @@
-const production = false;
+const production = true;
 const BASE_URL = production ? "https://still-plateau-02291.herokuapp.com" : "http://localhost:4000"
 const statusElement = document.querySelector("#status");
 var user = {};
@@ -166,4 +166,67 @@ function doLogOut() {
       <p class="navbar__link" onclick="showSignUp()">SignUp</p>
     `;
   })
+}
+
+/*
+function showMenuUserLogged() {
+  const menu = document.querySelector("#menu");
+  menu.innerHTML = `
+    <p class="navbar__link" onclick="showWelcome()">Home</p>
+    <p class="navbar__link" onclick="showProducts()">Products</p>
+    <p class="navbar__link" onclick="showCart()">My Cart</p>
+    <p class="navbar__link navbar__link--danger" onclick="doLogOut()">LogOut</p>
+  `;
+}
+*/
+
+function showProducts(limit = 2, page = 1) {
+  const url = `${BASE_URL}/api/products?limit=${limit}&page=${page}`;
+  fetch(url, {credentials: 'include'})
+  .then(response => response.json())
+  .then(data => {
+    const products = data.data;
+    let productsComponent = "";
+    products.forEach(product => {
+      productsComponent += `
+        <article class="product">
+          <div class="product__img-container">
+            <img class="product__img" src="${product.images[0]}">
+          </div>
+          <div class="product__details">
+            <h4 class="product__name">${product.name}</h4>
+            <div class="product__prizing">
+              <strong class="product__price">$${product.price}</strong>
+              ${product.offer?"<span class='product__offer'>Special Offer</span>":""}
+            </div>
+          </div>
+        </article>
+      `;
+    });
+    let btnPrevComponent = "<span>✘</span>";
+    if(data.prevPage) {
+      btnPrevComponent = `<button class='btnPrev' onclick='showProducts(${limit}, ${page - 1})'>Prev</button>`;
+    }
+    let btnNextComponent = "<span>✘</span>";
+    if(data.nextPage) {
+      btnNextComponent = `<button class='btnNext' onclick='showProducts(${limit}, ${page + 1})'>Next</button>`;
+    }
+    const main = document.querySelector("#main");
+    main.innerHTML = `
+      <h2>Products</h2>
+      <section class="products">${productsComponent}</section>
+      <div class="btnsPrevNext">
+        ${btnPrevComponent}
+        ${btnNextComponent}
+      </div>
+    `;
+  });
+
+}
+
+function showCart() {
+  const main = document.querySelector("#main");
+  main.innerHTML = `
+    <h2>My Cart</h2>
+  `;
 }
