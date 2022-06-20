@@ -14,6 +14,8 @@ El sistema fué desarrollado usando estas tecnologías:
 * `HttpOnly Cookies` para el control de flujo en la autenticación.
 * `Stripe` para el manejo de los pagos.
 * `Passport` para el inicio de sesión con redes sociales.
+* El despliegue del backend fue realizado en `Heroku` y `Google Cloud`.
+* El despliegue del frontend fue realizado en `Vercel`.
 
 **Librerías empleadas en el lado del Servidor:**
 
