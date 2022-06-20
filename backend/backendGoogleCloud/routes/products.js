@@ -23,7 +23,7 @@ function products(app) {
     const result = await productServ.getAll(limit, page);
     return res.json(result);
   });
-  router.post("/", authValidation(1), async (req, res) => {
+  router.post("/", authValidation(25), async (req, res) => {
     const result = await productServ.create({
       ...req.body,
       owner: req.user.id
