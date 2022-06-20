@@ -213,6 +213,31 @@ body {
   width: 10.5rem;
   height: 10.5rem;
 }
+.d-product__amount-details {
+  display: flex;
+}
+.d-product__btn-minus {
+  padding: 0.75rem;
+  font-size: var(--fs-regular);
+}
+.d-product__amount {
+  padding: 0.75rem;
+  font-size: var(--fs-regular);
+}
+.d-product__btn-plus {
+  padding: 0.75rem;
+  font-size: var(--fs-regular);
+}
+.d-product__add {
+  padding: 0.75rem;
+  font-size: var(--fs-regular);
+  color: #FFF;
+  background-color: steelblue;
+  cursor: pointer;
+}
+.d-product__add:hover {
+  background-color: #004085;
+}
 
 .footer {
   padding: 1.2rem;

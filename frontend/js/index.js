@@ -241,13 +241,31 @@ function showProductDetails(idProduct) {
         </div>
         <div class="d-product__categories">${categoriesComponent}</div>
         <div class="d-product__images">${imagesComponent}</div>
-        <span onclick="addToCart('${product._id}')">Add to Cart</span>
+        <div class="d-product__amount-details">
+          <button class="d-product__btn-minus" onclick="reduceOne()">-</button>
+          <input type="number" class="d-product__amount" id="amount" value=1>
+          <button class="d-product__btn-plus" onclick="addOne()">+</button>
+        </div>
+        <span class="d-product__add" onclick="addToCart('${product._id}')">Add to Cart</span>
       </article>
     `;
   })
 }
 
-function addToCart(idProduct, amount = 1) {
+function reduceOne() {
+  const amountElement = document.querySelector("#amount");
+  const amount = parseInt(amountElement.value);
+  if(amount === 1) { return; }
+  amountElement.value = amount - 1;
+}
+function addOne() {
+  const amountElement = document.querySelector("#amount");
+  const amount = parseInt(amountElement.value);
+  amountElement.value = amount + 1;
+}
+
+function addToCart(idProduct) {
+  const amount = parseInt(document.querySelector("#amount").value);
   const data = { idProduct, amount };
   const url = `${BASE_URL}/api/cart/add`;
   const request = {
