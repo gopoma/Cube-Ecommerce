@@ -161,6 +161,10 @@ body {
 }
 .cart-item__name {
   font-size: var(--fs-regular);
+  cursor: pointer;
+}
+.cart-item__name:hover {
+  color: #004085;
 }
 .cart-item__details {
   display: flex;

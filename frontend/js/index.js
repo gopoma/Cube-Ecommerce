@@ -294,7 +294,7 @@ function showCart() {
       const { product } = cartItem;
       cartItemsComponent += `
         <article class="cart-item">
-          <h4 class="cart-item__name">${product.name}<h4>
+          <h4 class="cart-item__name" onclick="showProductDetails('${product._id}')">${product.name}<h4>
           <div class="cart-item__details">
             <p>${cartItem.amount}x</p>
             <div class="cart-item__prizing">
@@ -384,7 +384,10 @@ async function showPaymentForm() {
         credentials: 'include'
       })
       .then(response => response.json())
-      .then(console.log)
+      .then(() => {
+        showMessages(["Payment made successfully"], true);
+        showCart();
+      })
       .catch(console.log)
     }
 
