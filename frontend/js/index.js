@@ -55,6 +55,7 @@ function showMenuUserLogged() {
     <p class="navbar__link" onclick="showWelcome()">Home</p>
     <p class="navbar__link" onclick="showProducts()">Products</p>
     <p class="navbar__link" onclick="showCart()">My Cart</p>
+    <p class="navbar__link" onclick="showPaymentForm()">Pay</p>
     <p class="navbar__link navbar__link--danger" onclick="doLogOut()">LogOut</p>
   `;
 }
@@ -216,4 +217,65 @@ function showCart() {
   main.innerHTML = `
     <h2>My Cart</h2>
   `;
+}
+
+const stripe = Stripe("pk_test_51L9NxJD28vZl8nCxjym2k2xlkLTvH1iaRCihO9Hi1VWCS9cmrduJ3nHcUUFykQbvYSLWxmm446GlKndddE8vI0im00GxOSBXFi");
+
+let elements;
+
+const initialize = async () => {
+  const response = await fetch(`${BASE_URL}/api/cart/pay`, {
+    credentials: 'include'
+  });
+
+  const {clientSecret} = await response.json();
+  const appereance = {
+    theme: 'stripe'
+  };
+
+  elements = stripe.elements({ appereance, clientSecret });
+
+  const paymentElement = elements.create("payment");
+  paymentElement.mount("#payment-element");
+}
+
+async function showPaymentForm() {
+  const response = await fetch(`${BASE_URL}/api/cart`, {credentials:'include'});
+  const cart = await response.json();
+  if(cart?.items.length === 0) {
+    showMessages(["Doesn't have any product in cart"], false);
+    return;
+  }
+
+  const main = document.querySelector("#main");
+  main.innerHTML = `
+    <!-- Display a payment form -->
+    <form id="payment-form">
+      <div id="payment-element">
+          <!--Stripe.js injects the Payment Element-->
+      </div>
+      <button class="btnPay">Pay</button>
+    </form>
+  `;
+  await initialize();
+  const form = document.querySelector("#payment-form");
+  form.onsubmit = async evt => {
+    evt.preventDefault();
+
+    const result = await stripe.confirmPayment({
+      elements,
+      redirect: 'if_required'
+    })
+    if(result.paymentIntent?.status === "succeeded") {
+      fetch(`${BASE_URL}/api/cart/paymentCompleted`, {
+        method: "POST",
+        credentials: 'include'
+      })
+      .then(response => response.json())
+      .then(console.log)
+      .catch(console.log)
+    }
+
+    console.log(result);
+  }
 }
