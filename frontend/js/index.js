@@ -241,9 +241,27 @@ function showProductDetails(idProduct) {
         </div>
         <div class="d-product__categories">${categoriesComponent}</div>
         <div class="d-product__images">${imagesComponent}</div>
+        <span onclick="addToCart('${product._id}')">Add to Cart</span>
       </article>
     `;
   })
+}
+
+function addToCart(idProduct, amount = 1) {
+  const data = { idProduct, amount };
+  const url = `${BASE_URL}/api/cart/add`;
+  const request = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data),
+    credentials: "include"
+  };
+
+  fetch(url, request)
+  .then(response => response.json())
+  .then(() => {showCart()})
 }
 
 function showCart() {
